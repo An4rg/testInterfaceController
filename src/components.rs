@@ -1,6 +1,6 @@
 use raylib::prelude::*;
 
-struct StringDisplayComponent {
+pub struct StringDisplayComponent {
     text: String,
     padding: i32,
     color: Color,
@@ -11,38 +11,61 @@ struct StringDisplayComponent {
 }
 
 impl StringDisplayComponent {
-    fn getText(&self ) -> String {
-        return self.text;
+    fn getText(&self) -> &str {
+        &self.text
     }
 
     fn setText(&mut self, text: String) {
-        self.color = text;
+        self.text = text;
     }
-    
+
     fn getPadding(&self) -> i32 {
-        return self.padding;
+        self.padding
     }
 
     fn setPadding(&mut self, padding: i32) {
         self.padding = padding;
     }
 
-    fn getColor(&self) -> i32 {
-        return self.color;
+    fn getColor(&self) -> Color {
+        self.color
     }
 
-    fn setColor(&mut self, color: i32) {
+    fn setColor(&mut self, color: Color) {
         self.color = color;
     }
-}
 
-impl StringDisplayComponent {
-    fn create(text: String, padding: i32, color: Color, positionX: i32,positionY: i32, sizeX: i32, sizeY: i32)
-    {
-        return StringDisplayComponent {
-            text: text, padding: padding, color: color,
-            positionX: positionX, positionY: positionY,
-            sizeX: sizeX, sizeY; sizeY
+    pub fn create(
+        text: String,
+        padding: i32,
+        color: Color,
+        positionX: i32,
+        positionY: i32,
+        sizeX: i32,
+        sizeY: i32,
+    ) -> StringDisplayComponent {
+        StringDisplayComponent {
+            text,
+            padding,
+            color,
+            positionX,
+            positionY,
+            sizeX,
+            sizeY,
         }
+    }
+
+    pub fn draw(&self, d: &mut RaylibDrawHandle) {
+        d.draw_rectangle_rounded(
+            Rectangle::new(
+                self.positionX as f32,
+                self.positionY as f32,
+                self.sizeX as f32,
+                self.sizeY as f32,
+            ),
+            0.1,
+            10,
+            self.color,
+        );
     }
 }
